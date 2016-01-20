@@ -180,12 +180,31 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var counter = 0;
+      var diagonalNumber = minorDiagonalColumnIndexAtFirstRow;
+      //iterate through diagonal that starts from 
+      for (var i = 0; i < this.rows().length; i++) {
+        if (this.rows()[i][diagonalNumber - i] === 1) {
+          counter++;
+        }
+      }
+
+      if (counter > 1) {
+        return true;
+      }
+
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+      for(var i = 0; i < this.rows().length; i++) {
+        if( this.hasMinorDiagonalConflictAt(i) ) {
+          return true;
+        }
+      }  
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
