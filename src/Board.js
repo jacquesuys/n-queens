@@ -125,7 +125,7 @@
         return true;
       }
 
-      return false; // fixme
+      return false;
     },
 
     // test if any columns on this board contain conflicts
@@ -146,12 +146,31 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var counter = 0;
+      var diagonalNumber = majorDiagonalColumnIndexAtFirstRow;
+      //iterate through diagonal that starts from 
+      for (var i = 0; i < this.rows().length; i++) {
+        if (this.rows()[i][i + diagonalNumber] === 1) {
+          counter++;
+        }
+      }
+
+      if (counter > 1) {
+        return true;
+      }
+
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+      for(var i = 0; i < this.rows().length; i++) {
+        if( this.hasMajorDiagonalConflictAt(i) ) {
+          return true;
+        }
+      }  
+      return false;
     },
 
 
