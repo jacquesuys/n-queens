@@ -18,17 +18,34 @@
 window.findNRooksSolution = function(n) {
   var solution = [];
   var solutionBoard = new Board({n:n});
-
-  for(var i = 0; i < n; i++) {
-    for(var j = 0; j < n; j++) {
-      solutionBoard.togglePiece(i, j);
-
-      if( solutionBoard.hasAnyRooksConflicts() ) {
-        solutionBoard.togglePiece(i, j);
-      }    
-    }
-  }
   
+  var subroutine = function (rowIndex, colIndex) {
+    
+    var currentSquare = [rowIndex,colIndex];
+    solutionBoard.togglePiece(currentSquare[0], currentSquare[1]);
+    for (var i=rowIndex; i<n; i++) {
+      while (currentSquare[1] < n) {
+        currentSquare[1]++;
+        solutionBoard.togglePiece(currentSquare[0], currentSquare[1]);
+        if(solutionBoard.hasAnyRooksConflicts()) {
+          solutionBoard.togglePiece(currentSquare[0], currentSquare[1]);
+        } 
+      }
+      currentSquare[0]++;
+      currentSquare[1] = 0;
+    }
+
+  };
+  subroutine(0,0);
+  
+// for(var i = rowIndex; i < n; i++) {
+//   for(var j = colIndex; j < n; j++) {
+//     solutionBoard.togglePiece(i, j);
+//     if( solutionBoard.hasAnyRooksConflicts() ) {
+//       solutionBoard.togglePiece(i, j);
+//     }    
+//   }
+// }
   solution = solutionBoard.rows();
   
 

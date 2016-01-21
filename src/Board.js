@@ -165,7 +165,7 @@
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var rows = this.rows();
-      for(var i = 0 - rows.length; i < rows.length; i++) {
+      for(var i = 0 - rows.length + 1; i < rows.length; i++) {
         if( this.hasMajorDiagonalConflictAt(i) ) {
           return true;
         }
@@ -173,7 +173,7 @@
       return false;
     },
 
-    //[[0,1,0,0],[0,0,0,1],[1,0,0,0],[0,0,1,0]]
+    // [[0,1,0,0],[0,0,0,1],[1,0,0,0],[0,0,1,0]]
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
