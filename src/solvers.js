@@ -54,7 +54,7 @@ window.findNQueensSolution = function(n) {
     solutionBoard.togglePiece(rowIndex,colIndex);
     if(solutionBoard.hasAnyQueensConflicts()) {
       solutionBoard.togglePiece(rowIndex,colIndex);
-      //console.log(solutionBoard.rows());
+      console.log(solutionBoard.rows());
       while (colIndex < n-1) {
         rowChecker (rowIndex, colIndex + 1);
       }
@@ -65,9 +65,13 @@ window.findNQueensSolution = function(n) {
       if(colIndex === n-1 && rowIndex === n-1) {
         return;
       }
-      while (colIndex < n-1) {
+      while (colIndex < n-1 ) {
         rowChecker (rowIndex, colIndex + 1);
       } 
+      var piece = solutionBoard.get(rowIndex); 
+      if (colIndex === n-1 && piece[piece.length-1] === 1 ) {
+        rowChecker (rowIndex + 1, colIndex);
+      }
     }
   };
 
