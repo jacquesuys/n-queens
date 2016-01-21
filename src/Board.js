@@ -136,7 +136,7 @@
           return true;
         }
       }  
-      return false; // fixme
+      return false;
     },
 
 
@@ -150,7 +150,7 @@
       var diagonalNumber = majorDiagonalColumnIndexAtFirstRow;
       //iterate through diagonal that starts from 
       for (var i = 0; i < this.rows().length; i++) {
-        if (this.rows()[i][i + diagonalNumber] === 1) {
+        if (this.rows()[i][diagonalNumber + i] === 1) {
           counter++;
         }
       }
@@ -165,7 +165,7 @@
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var rows = this.rows();
-      for(var i = 0; i < this.rows().length; i++) {
+      for(var i = 0 - rows.length; i < rows.length; i++) {
         if( this.hasMajorDiagonalConflictAt(i) ) {
           return true;
         }
@@ -173,7 +173,7 @@
       return false;
     },
 
-
+    //[[0,1,0,0],[0,0,0,1],[1,0,0,0],[0,0,1,0]]
 
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
@@ -199,7 +199,8 @@
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       var rows = this.rows();
-      for(var i = 0; i < this.rows().length; i++) {
+     // var boundary = 
+      for (var i = 0; i < rows.length*2; i++) {
         if( this.hasMinorDiagonalConflictAt(i) ) {
           return true;
         }
