@@ -49,35 +49,60 @@ window.countNRooksSolutions = function(n) {
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
   var solution; 
-  var solutionBoard = new Board({n:n});
-  var rowChecker = function (rowIndex, colIndex) {
-    solutionBoard.togglePiece(rowIndex,colIndex);
-    if(solutionBoard.hasAnyQueensConflicts()) {
-      solutionBoard.togglePiece(rowIndex,colIndex);
-      console.log(solutionBoard.rows());
-      while (colIndex < n-1) {
-        rowChecker (rowIndex, colIndex + 1);
-      }
-      if(colIndex === n-1 && rowIndex !== n-1) {
-        rowChecker (rowIndex+1, 0);
-      }  
-    } else { //no conflicts
-      if(colIndex === n-1 && rowIndex === n-1) {
-        return;
-      }
-      while (colIndex < n-1 ) {
-        rowChecker (rowIndex, colIndex + 1);
-      } 
-      var piece = solutionBoard.get(rowIndex); 
-      if (colIndex === n-1 && piece[piece.length-1] === 1 ) {
-        rowChecker (rowIndex + 1, colIndex);
-      }
+  
+  if (n > 0) {   
+    var solutionBoard = new Board({n:n});
+    var queensOnBoard = 0;
+    
+    if( n===2 || n===3) {
+      return undefined;
     }
-  };
 
-  rowChecker(0,0);
-  solution = solutionBoard.rows();
+    var rowChecker = function (rowIndex, colIndex) {
+      solutionBoard.togglePiece(rowIndex,colIndex);
+      queensOnBoard++;
+      if(solutionBoard.hasAnyQueensConflicts()) {
+        solutionBoard.togglePiece(rowIndex,colIndex);
+        queensOnBoard--;
+        //console.log(solutionBoard.rows());
+        if (colIndex < n-1) {
+          rowChecker (rowIndex, colIndex + 1);
+        }
+        if(colIndex === n-1 && rowIndex !== n-1) {
+          rowChecker (rowIndex+1, 0);
+        }  
+        if(colIndex === n-1 && rowIndex === n-1) {
+          return;
+        }
+      } else { //no conflicts
+        if(colIndex === n-1 && rowIndex === n-1) {
+          return;
+        }
+        if(colIndex === n-1 && rowIndex !== n-1) {
+          rowChecker (rowIndex+1, 0);
+        }  
+        if (colIndex < n-1 ) {
+          rowChecker (rowIndex, colIndex + 1);
+        }
+      }
+    };
 
+    var checkDifferentStartingSquares = function (rowIndex, colIndex) {
+      rowChecker(rowIndex, colIndex);  
+      if(queensOnBoard === n) {
+        solution = solutionBoard.rows();
+      } else {
+        solutionBoard = new Board({n:n});
+        queensOnBoard = 0;
+        checkDifferentStartingSquares (rowIndex,colIndex+1);
+      }
+    };
+
+    checkDifferentStartingSquares(0,0);
+  } else {
+    solution = [];
+  }
+  
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
