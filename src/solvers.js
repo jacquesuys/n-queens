@@ -48,40 +48,39 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution; 
   
-  if (n > 0) {   
-    var solutionBoard = new Board({n:n});
-    var queensOnBoard = 0;
-    
-    if( n===2 || n===3) {
-      return undefined;
-    }
+  var solution; 
+  var solutionBoard = new Board({n:n});
+  var queensOnBoard = 0;
 
+  if (n===0) {
+    solution =[];
+  } else if (n===2 || n===3){  
+    return undefined;
+  } else {
     var rowChecker = function (rowIndex, colIndex) {
       solutionBoard.togglePiece(rowIndex,colIndex);
       queensOnBoard++;
-      if(solutionBoard.hasAnyQueensConflicts()) {
-        solutionBoard.togglePiece(rowIndex,colIndex);
-        queensOnBoard--;
-        //console.log(solutionBoard.rows());
-        if (colIndex < n-1) {
+      if(solutionBoard.hasAnyQueensConflicts()) { //if there's a conflict
+        solutionBoard.togglePiece(rowIndex,colIndex); //remove piece
+        queensOnBoard--; 
+        if (colIndex < n-1) {  //if not at rightmost column, go to the next square 
           rowChecker (rowIndex, colIndex + 1);
         }
-        if(colIndex === n-1 && rowIndex !== n-1) {
+        if(colIndex === n-1 && rowIndex !== n-1) {  //if at rightmost column edge and not last row, go to next row  
           rowChecker (rowIndex+1, 0);
         }  
-        if(colIndex === n-1 && rowIndex === n-1) {
+        if(colIndex === n-1 && rowIndex === n-1) { //if at bottom right corner, we're done
           return;
         }
       } else { //no conflicts
-        if(colIndex === n-1 && rowIndex === n-1) {
+        if(colIndex === n-1 && rowIndex === n-1) { // if at bottom right corner, we're done
           return;
         }
-        if(colIndex === n-1 && rowIndex !== n-1) {
+        if(colIndex === n-1 && rowIndex !== n-1) {  //if at rightmost column edge and not last row, go to next row
           rowChecker (rowIndex+1, 0);
         }  
-        if (colIndex < n-1 ) {
+        if (colIndex < n-1 ) {  //if not at rightmost column, go to the next square
           rowChecker (rowIndex, colIndex + 1);
         }
       }
@@ -99,10 +98,8 @@ window.findNQueensSolution = function(n) {
     };
 
     checkDifferentStartingSquares(0,0);
-  } else {
-    solution = [];
   }
-  
+
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
